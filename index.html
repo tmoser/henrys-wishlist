@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Henry's Wish List 🎁</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brick-red: #c1392b;
+      --lego-yellow: #f5c518;
+      --lego-blue: #006db7;
+      --lego-green: #4caf50;
+      --warm-bg: #fff8f0;
+      --card-bg: #ffffff;
+      --text-dark: #1a1a2e;
+      --text-mid: #444466;
+      --text-light: #888;
+      --border: #e8e0d5;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --radius: 16px;
+      --purchased-bg: #f0f0f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--warm-bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      background: var(--lego-blue);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+    .nav-brand {
+      font-family: 'Fredoka One', cursive;
+      color: var(--lego-yellow);
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
+    .nav-links { display: flex; gap: 12px; align-items: center; }
+    .nav-btn {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 6px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: rgba(255,255,255,0.25); }
+    .nav-btn.active { background: var(--lego-yellow); color: var(--text-dark); border-color: var(--lego-yellow); }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #006db7 0%, #0056a0 40%, #003d7a 100%);
+      padding: 48px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Crect x='10' y='10' width='8' height='8' rx='2'/%3E%3Crect x='30' y='10' width='8' height='8' rx='2'/%3E%3Crect x='50' y='10' width='8' height='8' rx='2'/%3E%3Crect x='20' y='30' width='8' height='8' rx='2'/%3E%3Crect x='40' y='30' width='8' height='8' rx='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .avatar-wrap {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      border: 4px solid var(--lego-yellow);
+      margin: 0 auto 20px;
+      overflow: hidden;
+      background: #1a3a6b;
+      box-shadow: 0 0 0 6px rgba(245,197,24,0.25);
+    }
+    .avatar-svg { width: 100%; height: 100%; }
+    .hero h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--lego-yellow);
+      margin-bottom: 8px;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.85);
+      font-size: 1.1rem;
+      font-weight: 600;
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* ── FILTERS ── */
+    .filters-bar {
+      background: white;
+      padding: 16px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      border-bottom: 2px solid var(--border);
+      position: sticky;
+      top: 56px;
+      z-index: 90;
+    }
+    .filter-label { font-weight: 800; font-size: 0.8rem; color: var(--text-mid); text-transform: uppercase; letter-spacing: 1px; }
+    .filter-chip {
+      background: var(--warm-bg);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+      transition: all 0.15s;
+      color: var(--text-mid);
+    }
+    .filter-chip:hover { border-color: var(--lego-blue); color: var(--lego-blue); }
+    .filter-chip.active { background: var(--lego-blue); border-color: var(--lego-blue); color: white; }
+    .filter-sep { color: var(--border); font-size: 1.2rem; }
+    .sort-select {
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      background: var(--warm-bg);
+      color: var(--text-mid);
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* ── GRID ── */
+    .wishlist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ── CARD ── */
+    .wish-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 2px solid transparent;
+      position: relative;
+    }
+    .wish-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+    .wish-card.purchased {
+      opacity: 0.6;
+      background: var(--purchased-bg);
+    }
+    .purchased-ribbon {
+      position: absolute;
+      top: 12px; right: -28px;
+      background: var(--lego-green);
+      color: white;
+      font-weight: 800;
+      font-size: 0.7rem;
+      padding: 4px 36px;
+      transform: rotate(45deg);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .card-img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      background: #f5f5f5;
+      padding: 12px;
+    }
+    .card-img-placeholder {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, #e8f4fd, #d4e9f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .card-body { padding: 16px; }
+    .card-category {
+      display: inline-block;
+      background: var(--lego-yellow);
+      color: var(--text-dark);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 2px 10px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .card-note {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+    .card-price {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--brick-red);
+      margin-bottom: 10px;
+    }
+    .card-rank {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+    .card-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .badge {
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-retired { background: #fff0e0; color: #c06000; border: 1px solid #f0c080; }
+    .badge-expensive { background: #fff0f0; color: #c00; border: 1px solid #f0b0b0; }
+    .card-actions { display: flex; gap: 8px; }
+    .btn-buy {
+      flex: 1;
+      background: var(--lego-blue);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .btn-buy:hover { background: #0056a0; }
+    .btn-buy.disabled { background: #aaa; cursor: default; pointer-events: none; }
+    .btn-mark {
+      background: var(--warm-bg);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .btn-mark:hover { background: #e8f8e8; border-color: var(--lego-green); }
+    .btn-mark.marked { background: #e8f8e8; border-color: var(--lego-green); }
+
+    /* ── PURCHASED NOTICE ── */
+    .purchased-notice {
+      background: #e8f8e8;
+      border: 2px solid var(--lego-green);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #2a7a2a;
+      text-align: center;
+    }
+
+    /* ── MARK MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .modal h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--lego-blue); margin-bottom: 12px; }
+    .modal p { color: var(--text-mid); margin-bottom: 20px; line-height: 1.5; font-weight: 600; }
+    .modal-btns { display: flex; gap: 10px; justify-content: center; }
+    .btn-confirm {
+      background: var(--lego-green);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 28px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .btn-cancel {
+      background: var(--warm-bg);
+      color: var(--text-mid);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 28px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    /* ── ADMIN PAGE ── */
+    .admin-wrap { max-width: 900px; margin: 0 auto; padding: 24px; }
+    .admin-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 24px;
+    }
+    .admin-header h2 { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--lego-blue); }
+    .admin-section {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .admin-section h3 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+    .form-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+    .form-group { flex: 1; min-width: 180px; }
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      color: var(--text-dark);
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--lego-blue);
+    }
+    .form-group textarea { resize: vertical; min-height: 70px; }
+    .btn-primary {
+      background: var(--lego-blue);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 24px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #0056a0; }
+    .btn-danger {
+      background: var(--brick-red);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .btn-edit {
+      background: var(--lego-yellow);
+      color: var(--text-dark);
+      border: none;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .btn-success {
+      background: var(--lego-green);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 24px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table th {
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-mid);
+      padding: 8px 10px;
+      border-bottom: 2px solid var(--border);
+    }
+    .admin-table td { padding: 10px; border-bottom: 1px solid var(--border); font-size: 0.88rem; vertical-align: middle; }
+    .admin-table tr:hover td { background: var(--warm-bg); }
+    .drag-handle { cursor: grab; color: #ccc; font-size: 1.2rem; user-select: none; }
+    .drag-handle:active { cursor: grabbing; }
+
+    /* ── LOGIN ── */
+    .login-wrap {
+      max-width: 380px;
+      margin: 80px auto;
+      padding: 24px;
+    }
+    .login-box {
+      background: white;
+      border-radius: 20px;
+      padding: 40px 32px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .login-box h2 { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--lego-blue); margin-bottom: 8px; }
+    .login-box p { color: var(--text-light); margin-bottom: 24px; font-size: 0.9rem; }
+    .login-box input {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      margin-bottom: 16px;
+      text-align: center;
+      letter-spacing: 4px;
+    }
+    .login-box input:focus { border-color: var(--lego-blue); }
+    .login-error { color: var(--brick-red); font-size: 0.85rem; font-weight: 700; margin-top: -8px; margin-bottom: 12px; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      background: var(--text-dark);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.green { background: var(--lego-green); }
+    .toast.red { background: var(--brick-red); }
+
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: 60px 24px; color: var(--text-light); }
+    .empty-state div { font-size: 3rem; margin-bottom: 12px; }
+
+    /* ── LOADING ── */
+    .loading { text-align: center; padding: 60px; color: var(--text-light); font-weight: 700; }
+
+    /* ── SAVE STATUS ── */
+    .save-status { font-size: 0.8rem; color: var(--text-light); font-weight: 700; }
+    .save-status.saving { color: var(--lego-blue); }
+    .save-status.saved { color: var(--lego-green); }
+    .save-status.error { color: var(--brick-red); }
+
+    @media (max-width: 600px) {
+      .filters-bar { top: 52px; }
+      .wishlist-grid { padding: 16px; gap: 14px; }
+      .hero { padding: 32px 16px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <span class="nav-brand">🎁 Henry's Wish List</span>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="showPage('list')">Wish List</button>
+    <button class="nav-btn" onclick="showPage('admin-gate')">Admin</button>
+  </div>
+</nav>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- MARK PURCHASED MODAL -->
+<div class="modal-overlay" id="markModal">
+  <div class="modal">
+    <h2>🎉 You're Getting This!</h2>
+    <p id="markModalText">Are you sure you want to mark this as purchased? Others will see it's taken — so no duplicate gifts!</p>
+    <div class="modal-btns">
+      <button class="btn-confirm" onclick="confirmMark()">Yes, I'm buying it!</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ LIST PAGE ══════════════ -->
+<div class="page active" id="page-list">
+
+  <!-- HERO -->
+  <div class="hero">
+    <!-- Boy Avatar SVG -->
+    <div class="avatar-wrap">
+      <svg class="avatar-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background -->
+        <circle cx="60" cy="60" r="60" fill="#1a3a6b"/>
+        <!-- Body / T-shirt (Lego themed) -->
+        <rect x="28" y="78" width="64" height="42" rx="8" fill="#c1392b"/>
+        <!-- Lego stud pattern on shirt -->
+        <circle cx="44" cy="90" r="5" fill="#e74c3c"/>
+        <circle cx="44" cy="90" r="3" fill="#c0392b"/>
+        <circle cx="60" cy="90" r="5" fill="#e74c3c"/>
+        <circle cx="60" cy="90" r="3" fill="#c0392b"/>
+        <circle cx="76" cy="90" r="5" fill="#e74c3c"/>
+        <circle cx="76" cy="90" r="3" fill="#c0392b"/>
+        <!-- Neck -->
+        <rect x="50" y="68" width="20" height="16" rx="4" fill="#f5cba7"/>
+        <!-- Head -->
+        <ellipse cx="60" cy="52" rx="26" ry="28" fill="#f5cba7"/>
+        <!-- Hair (wavy/shaggy shoulder length) -->
+        <path d="M34 40 Q30 25 38 18 Q48 8 60 8 Q72 8 82 18 Q90 25 86 40 Q84 32 80 28 Q72 20 60 20 Q48 20 40 28 Q36 32 34 40Z" fill="#5c3317"/>
+        <!-- Side hair strands -->
+        <path d="M34 42 Q28 50 30 62 Q32 70 36 72 Q32 68 30 58 Q28 48 34 42Z" fill="#5c3317"/>
+        <path d="M86 42 Q92 50 90 62 Q88 70 84 72 Q88 68 90 58 Q92 48 86 42Z" fill="#5c3317"/>
+        <!-- Hair wisps over forehead -->
+        <path d="M40 28 Q48 22 60 22 Q52 24 46 30 Q42 34 40 38" fill="none" stroke="#5c3317" stroke-width="4" stroke-linecap="round"/>
+        <path d="M60 22 Q68 22 76 28 Q72 26 66 28 Q62 30 60 34" fill="none" stroke="#5c3317" stroke-width="3" stroke-linecap="round"/>
+        <!-- Eyes -->
+        <ellipse cx="50" cy="52" rx="5" ry="5.5" fill="white"/>
+        <ellipse cx="70" cy="52" rx="5" ry="5.5" fill="white"/>
+        <circle cx="51" cy="53" r="3.5" fill="#3d2b1f"/>
+        <circle cx="71" cy="53" r="3.5" fill="#3d2b1f"/>
+        <circle cx="52" cy="52" r="1.2" fill="white"/>
+        <circle cx="72" cy="52" r="1.2" fill="white"/>
+        <!-- Eyebrows -->
+        <path d="M44 46 Q50 43 56 46" fill="none" stroke="#5c3317" stroke-width="2" stroke-linecap="round"/>
+        <path d="M64 46 Q70 43 76 46" fill="none" stroke="#5c3317" stroke-width="2" stroke-linecap="round"/>
+        <!-- Nose -->
+        <path d="M58 58 Q60 62 62 58" fill="none" stroke="#d4a574" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Smile -->
+        <path d="M50 66 Q60 74 70 66" fill="none" stroke="#c17a4a" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Cheek blush -->
+        <ellipse cx="44" cy="63" rx="5" ry="3" fill="#f9a8a8" opacity="0.5"/>
+        <ellipse cx="76" cy="63" rx="5" ry="3" fill="#f9a8a8" opacity="0.5"/>
+        <!-- LEGO text on shirt -->
+        <rect x="40" y="100" width="40" height="12" rx="3" fill="#a93226"/>
+        <text x="60" y="110" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="8" font-weight="900" fill="#f5c518" letter-spacing="1">LEGO</text>
+      </svg>
+    </div>
+    <h1>Henry's Wish List! 🎁</h1>
+    <p>Hey friends and family! Here's everything I'm hoping for.<br>Pick something and let everyone know so there are no doubles! 😄</p>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters-bar" id="filtersBar">
+    <span class="filter-label">Category</span>
+    <button class="filter-chip active" data-filter-cat="all" onclick="setFilter('cat','all',this)">All</button>
+    <button class="filter-chip" data-filter-cat="Legos" onclick="setFilter('cat','Legos',this)">🧱 Legos</button>
+    <button class="filter-chip" data-filter-cat="Goo Jit Zus" onclick="setFilter('cat','Goo Jit Zus',this)">🦠 Goo Jit Zus</button>
+    <button class="filter-chip" data-filter-cat="Eldradors" onclick="setFilter('cat','Eldradors',this)">🐉 Eldradors</button>
+    <button class="filter-chip" data-filter-cat="Books" onclick="setFilter('cat','Books',this)">📚 Books</button>
+    <button class="filter-chip" data-filter-cat="Other" onclick="setFilter('cat','Other',this)">✨ Other</button>
+    <span class="filter-sep">|</span>
+    <span class="filter-label">Sort</span>
+    <select class="sort-select" onchange="setSort(this.value)">
+      <option value="rank">⭐ My Favorites First</option>
+      <option value="price-asc">💰 Price: Low → High</option>
+      <option value="price-desc">💰 Price: High → Low</option>
+      <option value="alpha">🔤 A → Z</option>
+    </select>
+    <span class="filter-sep">|</span>
+    <button class="filter-chip" id="hideBtn" onclick="toggleHidePurchased()">🙈 Hide Purchased</button>
+  </div>
+
+  <!-- GRID -->
+  <div class="wishlist-grid" id="wishlistGrid">
+    <div class="loading">Loading wish list... 🎁</div>
+  </div>
+</div>
+
+<!-- ══════════════ ADMIN GATE PAGE ══════════════ -->
+<div class="page" id="page-admin-gate">
+  <div class="login-wrap">
+    <div class="login-box">
+      <div style="font-size:2.5rem;margin-bottom:8px">🔐</div>
+      <h2>Admin Access</h2>
+      <p>Enter the admin password to manage Henry's wish list</p>
+      <input type="password" id="adminPassInput" placeholder="Password" onkeydown="if(event.key==='Enter')checkPass()">
+      <div class="login-error" id="loginError"></div>
+      <button class="btn-primary" style="width:100%;padding:12px" onclick="checkPass()">Enter →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ ADMIN PAGE ══════════════ -->
+<div class="page" id="page-admin">
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <h2>🛠️ Wish List Admin</h2>
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="save-status" id="saveStatus"></span>
+        <button class="btn-success" onclick="saveToGitHub()">💾 Save to GitHub</button>
+        <button class="btn-danger" onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <!-- GitHub Config -->
+    <div class="admin-section" id="ghConfigSection">
+      <h3>⚙️ GitHub Configuration</h3>
+      <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:12px">Enter your GitHub details to enable saving. These are stored locally in your browser only.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>GitHub Username</label>
+          <input type="text" id="ghUser" placeholder="e.g. johndoe">
+        </div>
+        <div class="form-group">
+          <label>Repository Name</label>
+          <input type="text" id="ghRepo" placeholder="e.g. henrys-wishlist">
+        </div>
+        <div class="form-group">
+          <label>Personal Access Token</label>
+          <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx">
+        </div>
+      </div>
+      <button class="btn-primary" onclick="saveGhConfig()">Save Config</button>
+    </div>
+
+    <!-- Add / Edit Item -->
+    <div class="admin-section">
+      <h3 id="formTitle">➕ Add New Item</h3>
+
+      <!-- URL Fetch -->
+      <div style="display:flex;gap:10px;margin-bottom:16px;align-items:flex-end">
+        <div class="form-group" style="flex:1">
+          <label>Paste URL to auto-fill details</label>
+          <input type="url" id="fetchUrl" placeholder="https://www.amazon.com/...">
+        </div>
+        <button class="btn-primary" onclick="fetchUrlDetails()" id="fetchBtn">🔍 Fetch</button>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" style="flex:2">
+          <label>Title *</label>
+          <input type="text" id="itemTitle" placeholder="Item name">
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="itemCategory">
+            <option>Legos</option>
+            <option>Goo Jit Zus</option>
+            <option>Eldradors</option>
+            <option>Books</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Price ($)</label>
+          <input type="number" id="itemPrice" placeholder="e.g. 29.99" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Rank (lower = top)</label>
+          <input type="number" id="itemRank" placeholder="e.g. 1" min="1">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex:2">
+          <label>Buy Link URL</label>
+          <input type="url" id="itemUrl" placeholder="https://...">
+        </div>
+        <div class="form-group" style="flex:2">
+          <label>Image URL</label>
+          <input type="url" id="itemImage" placeholder="https://...">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex:1">
+          <label>Note / Warning</label>
+          <input type="text" id="itemNote" placeholder="e.g. Retired set, buy on eBay">
+        </div>
+        <div class="form-group" style="max-width:140px">
+          <label>Flags</label>
+          <div style="display:flex;gap:10px;padding-top:8px">
+            <label style="font-size:0.85rem;text-transform:none;letter-spacing:0;font-weight:700;color:var(--text-dark);display:flex;gap:4px;align-items:center">
+              <input type="checkbox" id="itemRetired"> Retired
+            </label>
+            <label style="font-size:0.85rem;text-transform:none;letter-spacing:0;font-weight:700;color:var(--text-dark);display:flex;gap:4px;align-items:center">
+              <input type="checkbox" id="itemExpensive"> Pricey
+            </label>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" id="editingId">
+      <div style="display:flex;gap:10px">
+        <button class="btn-primary" onclick="submitItem()">➕ Add to List</button>
+        <button class="btn-cancel" id="cancelEditBtn" style="display:none" onclick="cancelEdit()">Cancel Edit</button>
+      </div>
+    </div>
+
+    <!-- Bulk Import -->
+    <div class="admin-section">
+      <h3>📋 Bulk Import URLs</h3>
+      <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:12px">Paste one URL per line. Each will be fetched and added to the list.</p>
+      <div class="form-group">
+        <textarea id="bulkUrls" placeholder="https://www.amazon.com/item1&#10;https://www.lego.com/item2&#10;https://www.amazon.com/item3" style="min-height:100px"></textarea>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <select class="sort-select" id="bulkCategory">
+          <option>Legos</option>
+          <option>Goo Jit Zus</option>
+          <option>Eldradors</option>
+          <option>Books</option>
+          <option>Other</option>
+        </select>
+        <button class="btn-primary" onclick="bulkImport()">📥 Import All</button>
+        <span id="bulkStatus" style="font-size:0.85rem;color:var(--text-light);font-weight:700"></span>
+      </div>
+    </div>
+
+    <!-- Item List -->
+    <div class="admin-section">
+      <h3>📝 All Items <span style="font-weight:400;font-size:0.9rem;color:var(--text-light)" id="itemCount"></span></h3>
+      <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:12px">Drag ☰ to reorder within a category.</p>
+      <div style="overflow-x:auto">
+        <table class="admin-table" id="adminTable">
+          <thead>
+            <tr>
+              <th>☰</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Rank</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════
+const ADMIN_PASSWORD = 'henry2025'; // Change this!
+const JSON_PATH = 'wishlist.json';
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let items = [];
+let filterCat = 'all';
+let sortMode = 'rank';
+let hidePurchased = false;
+let pendingMarkId = null;
+let dragSrcIdx = null;
+
+// Purchased state stored in localStorage (keyed by item id)
+function getPurchased() {
+  try { return JSON.parse(localStorage.getItem('hp_purchased') || '{}'); } catch { return {}; }
+}
+function setPurchased(id, val) {
+  const p = getPurchased();
+  p[id] = val;
+  localStorage.setItem('hp_purchased', JSON.stringify(p));
+}
+
+// ══════════════════════════════════════════
+// LOAD DATA
+// ══════════════════════════════════════════
+async function loadItems() {
+  try {
+    const r = await fetch(JSON_PATH + '?_=' + Date.now());
+    items = await r.json();
+    renderList();
+    renderAdminTable();
+  } catch(e) {
+    document.getElementById('wishlistGrid').innerHTML = '<div class="loading">⚠️ Could not load wish list. Make sure wishlist.json is in the repo.</div>';
+  }
+}
+
+// ══════════════════════════════════════════
+// RENDER LIST
+// ══════════════════════════════════════════
+function renderList() {
+  const purchased = getPurchased();
+  let visible = items.map(i => ({ ...i, purchased: purchased[i.id] || i.purchased }));
+
+  if (filterCat !== 'all') visible = visible.filter(i => i.category === filterCat);
+  if (hidePurchased) visible = visible.filter(i => !i.purchased);
+
+  if (sortMode === 'rank') visible.sort((a,b) => (a.rank||99)-(b.rank||99));
+  else if (sortMode === 'price-asc') visible.sort((a,b) => (a.price||9999)-(b.price||9999));
+  else if (sortMode === 'price-desc') visible.sort((a,b) => (b.price||0)-(a.price||0));
+  else if (sortMode === 'alpha') visible.sort((a,b) => a.title.localeCompare(b.title));
+
+  const grid = document.getElementById('wishlistGrid');
+
+  if (!visible.length) {
+    grid.innerHTML = '<div class="empty-state"><div>🎁</div>No items found!</div>';
+    return;
+  }
+
+  const catEmoji = { Legos:'🧱', 'Goo Jit Zus':'🦠', Eldradors:'🐉', Books:'📚', Other:'✨' };
+
+  grid.innerHTML = visible.map(item => {
+    const isPurchased = item.purchased;
+    const imgHtml = item.image
+      ? `<img class="card-img" src="${escHtml(item.image)}" alt="${escHtml(item.title)}" onerror="this.parentNode.innerHTML='<div class=\\'card-img-placeholder\\'>${catEmoji[item.category]||'🎁'}</div>'">`
+      : `<div class="card-img-placeholder">${catEmoji[item.category]||'🎁'}</div>`;
+
+    const badges = [
+      item.retired ? '<span class="badge badge-retired">Retired</span>' : '',
+      item.expensive ? '<span class="badge badge-expensive">May be pricey</span>' : ''
+    ].filter(Boolean).join('');
+
+    const priceHtml = item.price ? `<div class="card-price">$${Number(item.price).toFixed(2)}</div>` : '';
+    const noteHtml = item.note ? `<div class="card-note">${escHtml(item.note)}</div>` : '';
+    const rankHtml = item.rank ? `<div class="card-rank">Wish rank #${item.rank}</div>` : '';
+
+    const actionHtml = isPurchased
+      ? `<div class="purchased-notice">✅ Already being purchased!</div>`
+      : `<div class="card-actions">
+           <a class="btn-buy" href="${escHtml(item.url||'#')}" target="_blank" rel="noopener"${!item.url?' onclick="return false" style="background:#aaa"':''}>🛒 Buy This</a>
+           <button class="btn-mark" onclick="openMarkModal('${escHtml(item.id)}')" title="I'm buying this!">🎁</button>
+         </div>`;
+
+    return `
+      <div class="wish-card${isPurchased?' purchased':''}" data-id="${item.id}">
+        ${isPurchased ? '<div class="purchased-ribbon">Purchased</div>' : ''}
+        ${imgHtml}
+        <div class="card-body">
+          <span class="card-category">${catEmoji[item.category]||''} ${escHtml(item.category)}</span>
+          <div class="card-title">${escHtml(item.title)}</div>
+          ${noteHtml}
+          ${badges ? `<div class="card-badges">${badges}</div>` : ''}
+          ${priceHtml}
+          ${rankHtml}
+          ${actionHtml}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// FILTERS & SORT
+// ══════════════════════════════════════════
+function setFilter(type, val, el) {
+  if (type === 'cat') {
+    filterCat = val;
+    document.querySelectorAll('[data-filter-cat]').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+  }
+  renderList();
+}
+function setSort(val) { sortMode = val; renderList(); }
+function toggleHidePurchased() {
+  hidePurchased = !hidePurchased;
+  const btn = document.getElementById('hideBtn');
+  btn.classList.toggle('active', hidePurchased);
+  btn.textContent = hidePurchased ? '👁️ Show Purchased' : '🙈 Hide Purchased';
+  renderList();
+}
+
+// ══════════════════════════════════════════
+// MARK PURCHASED
+// ══════════════════════════════════════════
+function openMarkModal(id) {
+  pendingMarkId = id;
+  const item = items.find(i => i.id === id);
+  document.getElementById('markModalText').textContent =
+    `Mark "${item?.title}" as purchased? Others will see it's taken so nobody duplicates the gift! 🎉`;
+  document.getElementById('markModal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('markModal').classList.remove('open');
+  pendingMarkId = null;
+}
+function confirmMark() {
+  if (!pendingMarkId) return;
+  setPurchased(pendingMarkId, true);
+  closeModal();
+  renderList();
+  showToast('🎉 Marked as purchased! Happy gifting!', 'green');
+}
+
+// ══════════════════════════════════════════
+// NAV / PAGES
+// ══════════════════════════════════════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (name === 'admin-gate') {
+    if (sessionStorage.getItem('admin_auth') === '1') {
+      name = 'admin';
+    }
+  }
+  document.getElementById('page-' + name)?.classList.add('active');
+  const btnMap = { list: 0, 'admin-gate': 1, admin: 1 };
+  document.querySelectorAll('.nav-btn')[btnMap[name] ?? 0]?.classList.add('active');
+  if (name === 'admin') { loadGhConfig(); renderAdminTable(); }
+}
+function logout() {
+  sessionStorage.removeItem('admin_auth');
+  showPage('list');
+}
+
+// ══════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════
+function checkPass() {
+  const val = document.getElementById('adminPassInput').value;
+  if (val === ADMIN_PASSWORD) {
+    sessionStorage.setItem('admin_auth', '1');
+    document.getElementById('adminPassInput').value = '';
+    document.getElementById('loginError').textContent = '';
+    showPage('admin');
+  } else {
+    document.getElementById('loginError').textContent = '❌ Wrong password. Try again.';
+  }
+}
+
+// ══════════════════════════════════════════
+// GITHUB CONFIG
+// ══════════════════════════════════════════
+function saveGhConfig() {
+  localStorage.setItem('gh_user', document.getElementById('ghUser').value.trim());
+  localStorage.setItem('gh_repo', document.getElementById('ghRepo').value.trim());
+  localStorage.setItem('gh_token', document.getElementById('ghToken').value.trim());
+  showToast('GitHub config saved locally ✅', 'green');
+}
+function loadGhConfig() {
+  document.getElementById('ghUser').value = localStorage.getItem('gh_user') || '';
+  document.getElementById('ghRepo').value = localStorage.getItem('gh_repo') || '';
+  document.getElementById('ghToken').value = localStorage.getItem('gh_token') || '';
+}
+
+// ══════════════════════════════════════════
+// SAVE TO GITHUB
+// ══════════════════════════════════════════
+async function saveToGitHub() {
+  const user = localStorage.getItem('gh_user');
+  const repo = localStorage.getItem('gh_repo');
+  const token = localStorage.getItem('gh_token');
+  if (!user || !repo || !token) {
+    showToast('⚠️ Fill in GitHub config first!', 'red');
+    document.getElementById('ghConfigSection').scrollIntoView({ behavior:'smooth' });
+    return;
+  }
+  setStatus('saving', 'Saving...');
+  try {
+    // Get current SHA
+    const getRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/public/wishlist.json`, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    const getData = await getRes.json();
+    const sha = getData.sha;
+
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(items, null, 2))));
+    const putRes = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/public/wishlist.json`, {
+      method: 'PUT',
+      headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Update wish list', content, sha })
+    });
+    if (putRes.ok) {
+      setStatus('saved', '✅ Saved!');
+      showToast('💾 Wish list saved to GitHub!', 'green');
+    } else {
+      const err = await putRes.json();
+      throw new Error(err.message);
+    }
+  } catch(e) {
+    setStatus('error', '❌ Save failed');
+    showToast('❌ Save failed: ' + e.message, 'red');
+  }
+}
+function setStatus(cls, text) {
+  const el = document.getElementById('saveStatus');
+  el.className = 'save-status ' + cls;
+  el.textContent = text;
+}
+
+// ══════════════════════════════════════════
+// URL FETCH (jsonlink.io)
+// ══════════════════════════════════════════
+async function fetchUrlDetails() {
+  const url = document.getElementById('fetchUrl').value.trim();
+  if (!url) return;
+  const btn = document.getElementById('fetchBtn');
+  btn.textContent = '⏳';
+  btn.disabled = true;
+  try {
+    const res = await fetch(`https://jsonlink.io/api/extract?url=${encodeURIComponent(url)}`);
+    const data = await res.json();
+    if (data.title) document.getElementById('itemTitle').value = data.title;
+    if (data.images?.[0]) document.getElementById('itemImage').value = data.images[0];
+    if (data.url) document.getElementById('itemUrl').value = data.url;
+    // Try to extract price from description
+    const priceMatch = (data.description||'').match(/\$(\d+\.?\d*)/);
+    if (priceMatch) document.getElementById('itemPrice').value = priceMatch[1];
+    showToast('✅ Details fetched!', 'green');
+  } catch(e) {
+    showToast('⚠️ Could not fetch. Fill in manually.', 'red');
+  }
+  btn.textContent = '🔍 Fetch';
+  btn.disabled = false;
+}
+
+// ══════════════════════════════════════════
+// CRUD
+// ══════════════════════════════════════════
+function submitItem() {
+  const title = document.getElementById('itemTitle').value.trim();
+  if (!title) { showToast('⚠️ Title is required', 'red'); return; }
+
+  const editId = document.getElementById('editingId').value;
+  const item = {
+    id: editId || String(Date.now()),
+    title,
+    category: document.getElementById('itemCategory').value,
+    price: document.getElementById('itemPrice').value ? Number(document.getElementById('itemPrice').value) : null,
+    rank: document.getElementById('itemRank').value ? Number(document.getElementById('itemRank').value) : 99,
+    url: document.getElementById('itemUrl').value.trim(),
+    image: document.getElementById('itemImage').value.trim(),
+    note: document.getElementById('itemNote').value.trim(),
+    retired: document.getElementById('itemRetired').checked,
+    expensive: document.getElementById('itemExpensive').checked,
+    purchased: false
+  };
+
+  if (editId) {
+    const idx = items.findIndex(i => i.id === editId);
+    if (idx > -1) items[idx] = item;
+    cancelEdit();
+    showToast('✏️ Item updated!', 'green');
+  } else {
+    items.push(item);
+    showToast('✅ Item added!', 'green');
+  }
+  clearForm();
+  renderAdminTable();
+  renderList();
+}
+
+function editItem(id) {
+  const item = items.find(i => i.id === id);
+  if (!item) return;
+  document.getElementById('formTitle').textContent = '✏️ Edit Item';
+  document.getElementById('editingId').value = id;
+  document.getElementById('itemTitle').value = item.title;
+  document.getElementById('itemCategory').value = item.category;
+  document.getElementById('itemPrice').value = item.price || '';
+  document.getElementById('itemRank').value = item.rank || '';
+  document.getElementById('itemUrl').value = item.url || '';
+  document.getElementById('itemImage').value = item.image || '';
+  document.getElementById('itemNote').value = item.note || '';
+  document.getElementById('itemRetired').checked = !!item.retired;
+  document.getElementById('itemExpensive').checked = !!item.expensive;
+  document.getElementById('cancelEditBtn').style.display = 'inline-block';
+  document.querySelector('.admin-section:nth-child(3)').scrollIntoView({ behavior:'smooth' });
+}
+
+function deleteItem(id) {
+  if (!confirm('Delete this item?')) return;
+  items = items.filter(i => i.id !== id);
+  renderAdminTable();
+  renderList();
+  showToast('🗑️ Item deleted', '');
+}
+
+function cancelEdit() {
+  clearForm();
+  document.getElementById('formTitle').textContent = '➕ Add New Item';
+  document.getElementById('editingId').value = '';
+  document.getElementById('cancelEditBtn').style.display = 'none';
+}
+
+function clearForm() {
+  ['itemTitle','itemPrice','itemRank','itemUrl','itemImage','itemNote','fetchUrl'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('itemRetired').checked = false;
+  document.getElementById('itemExpensive').checked = false;
+}
+
+// ══════════════════════════════════════════
+// BULK IMPORT
+// ══════════════════════════════════════════
+async function bulkImport() {
+  const raw = document.getElementById('bulkUrls').value.trim();
+  if (!raw) return;
+  const urls = raw.split('\n').map(u => u.trim()).filter(Boolean);
+  const cat = document.getElementById('bulkCategory').value;
+  const status = document.getElementById('bulkStatus');
+  status.textContent = `Fetching 0/${urls.length}...`;
+
+  let done = 0;
+  for (const url of urls) {
+    try {
+      const res = await fetch(`https://jsonlink.io/api/extract?url=${encodeURIComponent(url)}`);
+      const data = await res.json();
+      items.push({
+        id: String(Date.now() + Math.random()),
+        title: data.title || url,
+        category: cat,
+        price: null,
+        rank: 99,
+        url: data.url || url,
+        image: data.images?.[0] || '',
+        note: '',
+        purchased: false
+      });
+    } catch {
+      items.push({ id: String(Date.now() + Math.random()), title: url, category: cat, price: null, rank: 99, url, image: '', note: '', purchased: false });
+    }
+    done++;
+    status.textContent = `Fetching ${done}/${urls.length}...`;
+  }
+  document.getElementById('bulkUrls').value = '';
+  status.textContent = `✅ Imported ${done} items!`;
+  renderAdminTable();
+  renderList();
+}
+
+// ══════════════════════════════════════════
+// ADMIN TABLE
+// ══════════════════════════════════════════
+function renderAdminTable() {
+  const tbody = document.getElementById('adminTableBody');
+  document.getElementById('itemCount').textContent = `(${items.length} items)`;
+
+  tbody.innerHTML = items.map((item, idx) => `
+    <tr draggable="true"
+        ondragstart="dragStart(${idx})"
+        ondragover="dragOver(event,${idx})"
+        ondrop="dropItem(${idx})"
+        ondragend="dragEnd()">
+      <td><span class="drag-handle">☰</span></td>
+      <td>${escHtml(item.title)}</td>
+      <td>${escHtml(item.category)}</td>
+      <td>${item.price ? '$'+item.price : '—'}</td>
+      <td>${item.rank || '—'}</td>
+      <td style="white-space:nowrap;display:flex;gap:6px">
+        <button class="btn-edit" onclick="editItem('${item.id}')">✏️ Edit</button>
+        <button class="btn-danger" onclick="deleteItem('${item.id}')">🗑️</button>
+      </td>
+    </tr>`).join('');
+}
+
+// ══════════════════════════════════════════
+// DRAG TO REORDER
+// ══════════════════════════════════════════
+function dragStart(idx) { dragSrcIdx = idx; }
+function dragOver(e, idx) { e.preventDefault(); }
+function dropItem(toIdx) {
+  if (dragSrcIdx === null || dragSrcIdx === toIdx) return;
+  const moved = items.splice(dragSrcIdx, 1)[0];
+  items.splice(toIdx, 0, moved);
+  // Re-assign ranks within same category
+  const catItems = items.filter(i => i.category === moved.category);
+  catItems.forEach((item, i) => { item.rank = i + 1; });
+  dragSrcIdx = null;
+  renderAdminTable();
+  renderList();
+}
+function dragEnd() { dragSrcIdx = null; }
+
+// ══════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════
+function escHtml(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' '+type : '');
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+loadItems();
+</script>
+</body>
+</html>
