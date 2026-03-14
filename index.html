@@ -544,6 +544,23 @@
   </div>
 </div>
 
+<!-- FAMILY PIN MODAL -->
+<div class="modal-overlay" id="pinModal">
+  <div class="modal">
+    <div style="font-size:2rem;margin-bottom:8px">🔒</div>
+    <h2>Family Access</h2>
+    <p>Enter the family PIN to see which gifts have already been purchased — keep this secret from Henry! 🤫</p>
+    <input type="tel" id="pinInput" maxlength="6" placeholder="Enter PIN"
+      style="width:100%;border:2px solid var(--border);border-radius:10px;padding:12px;font-size:1.4rem;text-align:center;letter-spacing:8px;font-family:'Nunito',sans-serif;font-weight:800;margin-bottom:8px;outline:none"
+      onkeydown="if(event.key==='Enter')checkPin()">
+    <div style="color:var(--brick-red);font-size:0.85rem;font-weight:700;min-height:20px;margin-bottom:12px" id="pinError"></div>
+    <div class="modal-btns">
+      <button class="btn-confirm" onclick="checkPin()">Unlock 🔓</button>
+      <button class="btn-cancel" onclick="document.getElementById('pinModal').classList.remove('open')">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════════ LIST PAGE ══════════════ -->
 <div class="page active" id="page-list">
 
@@ -620,6 +637,8 @@
     </select>
     <span class="filter-sep">|</span>
     <button class="filter-chip" id="hideBtn" onclick="toggleHidePurchased()">🙈 Hide Purchased</button>
+    <span class="filter-sep">|</span>
+    <button class="filter-chip" id="familyBtn" onclick="handleFamilyBtn()" title="Family members: click to see purchased items">🔒 Family View</button>
   </div>
 
   <!-- GRID -->
@@ -788,6 +807,7 @@
 // CONFIG
 // ══════════════════════════════════════════
 const ADMIN_PASSWORD = 'henry2025'; // Change this!
+const FAMILY_PIN = '1225'; // Family-only PIN to reveal purchased items. Change this!
 const JSON_PATH = 'wishlist.json';
 
 // ══════════════════════════════════════════
@@ -800,7 +820,7 @@ let hidePurchased = false;
 let pendingMarkId = null;
 let dragSrcIdx = null;
 
-// Purchased state stored in localStorage (keyed by item id)
+// Purchased state — stored in localStorage, only VISIBLE after family PIN
 function getPurchased() {
   try { return JSON.parse(localStorage.getItem('hp_purchased') || '{}'); } catch { return {}; }
 }
@@ -808,6 +828,17 @@ function setPurchased(id, val) {
   const p = getPurchased();
   p[id] = val;
   localStorage.setItem('hp_purchased', JSON.stringify(p));
+}
+function isFamilyUnlocked() {
+  return localStorage.getItem('hp_family_unlocked') === '1';
+}
+function unlockFamily() {
+  localStorage.setItem('hp_family_unlocked', '1');
+}
+// Returns purchased map only if family PIN has been entered, otherwise empty
+function getVisiblePurchased() {
+  if (!isFamilyUnlocked()) return {};
+  return getPurchased();
 }
 
 // ══════════════════════════════════════════
@@ -828,8 +859,8 @@ async function loadItems() {
 // RENDER LIST
 // ══════════════════════════════════════════
 function renderList() {
-  const purchased = getPurchased();
-  let visible = items.map(i => ({ ...i, purchased: purchased[i.id] || i.purchased }));
+  const purchased = getVisiblePurchased(); // only shows purchased if family PIN entered
+  let visible = items.map(i => ({ ...i, purchased: purchased[i.id] || (isFamilyUnlocked() && i.purchased) }));
 
   if (filterCat !== 'all') visible = visible.filter(i => i.category === filterCat);
   if (hidePurchased) visible = visible.filter(i => !i.purchased);
@@ -851,8 +882,15 @@ function renderList() {
   grid.innerHTML = visible.map(item => {
     const isPurchased = item.purchased;
     const emoji = catEmoji[item.category] || '🎁';
-    const imgHtml = item.image
-      ? `<img class="card-img" src="${escHtml(item.image)}" alt="${escHtml(item.title)}" referrerpolicy="no-referrer" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
+    // Wrap any raw image URL in wsrv.nl proxy to bypass hotlink blocking
+    const proxyImg = (url) => {
+      if (!url) return '';
+      if (url.includes('wsrv.nl')) return url; // already proxied
+      return 'https://wsrv.nl/?url=' + encodeURIComponent(url) + '&w=400&h=400&fit=contain&bg=white';
+    };
+    const imgSrc = proxyImg(item.image);
+    const imgHtml = imgSrc
+      ? `<img class="card-img" src="${escHtml(imgSrc)}" alt="${escHtml(item.title)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
       : `<div class="card-img-placeholder">${emoji}</div>`;
     const badges = [
       item.retired ? '<span class="badge badge-retired">Retired</span>' : '',
@@ -951,6 +989,50 @@ function logout() {
 }
 
 // ══════════════════════════════════════════
+// FAMILY PIN
+// ══════════════════════════════════════════
+function handleFamilyBtn() {
+  if (isFamilyUnlocked()) {
+    // Already unlocked — re-lock
+    localStorage.removeItem('hp_family_unlocked');
+    updateFamilyBtn();
+    renderList();
+    showToast('🔒 Family view locked', '');
+  } else {
+    // Show PIN modal
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinError').textContent = '';
+    document.getElementById('pinModal').classList.add('open');
+    setTimeout(() => document.getElementById('pinInput').focus(), 100);
+  }
+}
+function checkPin() {
+  const val = document.getElementById('pinInput').value.trim();
+  if (val === FAMILY_PIN) {
+    unlockFamily();
+    document.getElementById('pinModal').classList.remove('open');
+    updateFamilyBtn();
+    renderList();
+    showToast('🔓 Family view unlocked! Purchased items are now visible.', 'green');
+  } else {
+    document.getElementById('pinError').textContent = '❌ Wrong PIN. Try again.';
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinInput').focus();
+  }
+}
+function updateFamilyBtn() {
+  const btn = document.getElementById('familyBtn');
+  if (!btn) return;
+  if (isFamilyUnlocked()) {
+    btn.textContent = '🔓 Family View';
+    btn.classList.add('active');
+  } else {
+    btn.textContent = '🔒 Family View';
+    btn.classList.remove('active');
+  }
+}
+
+// ══════════════════════════════════════════
 // AUTH
 // ══════════════════════════════════════════
 function checkPass() {
@@ -1027,46 +1109,82 @@ function setStatus(cls, text) {
 }
 
 // ══════════════════════════════════════════
-// URL FETCH — multi-proxy OG scraper
+// URL FETCH — allorigins + wsrv.nl image proxy
 // ══════════════════════════════════════════
 
+// Parse OG/meta tags from raw HTML
 function parseOGFromHTML(html, originalUrl) {
-  const get = (prop) => {
-    let m = html.match(new RegExp('property=["\'\']' + prop + '["\'\'][^>]*content=["\'\']([^"\'\']]+)', 'i'));
-    if (!m) m = html.match(new RegExp('content=["\'\']([^"\'\']]+)["\'\'][^>]*property=["\'\']' + prop + '["\'\']', 'i'));
+  const getOG = (prop) => {
+    let m = html.match(new RegExp('property=["\']og:' + prop + '["\'][^>]*content=["\']([^"\']{4,400})', 'i'));
+    if (!m) m = html.match(new RegExp('content=["\']([^"\']{4,400})["\'][^>]*property=["\']og:' + prop + '["\']', 'i'));
     return m ? m[1].trim() : null;
   };
-  const title = get('og:title') || (html.match(/<title[^>]*>([^<]{2,100})/i)||[])[1] || '';
-  const image = get('og:image') || get('og:image:secure_url') || '';
-  const priceStr = get('product:price:amount') || get('og:price:amount');
-  let price = priceStr ? parseFloat(priceStr) : null;
-  if (!price) { const pm = html.match(/\$\s*(\d{1,4}\.\d{2})/); if (pm) price = parseFloat(pm[1]); }
-  return {
-    title: title.replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim(),
-    image, price, url: originalUrl
+  const getMeta = (name) => {
+    let m = html.match(new RegExp('name=["\']' + name + '["\'][^>]*content=["\']([^"\']{1,300})', 'i'));
+    if (!m) m = html.match(new RegExp('content=["\']([^"\']{1,300})["\'][^>]*name=["\']' + name + '["\']', 'i'));
+    return m ? m[1].trim() : null;
   };
+
+  // Title
+  const title = (getOG('title') || getMeta('title') || (html.match(/<title[^>]*>([^<]{2,120})/i)||[])[1] || '')
+    .replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').replace(/\s+/g,' ').trim();
+
+  // Image — extract raw URL then wrap in wsrv.nl proxy to bypass hotlink blocking
+  const rawImage = getOG('image') || getOG('image:secure_url') || '';
+  const image = rawImage ? 'https://wsrv.nl/?url=' + encodeURIComponent(rawImage) + '&w=400&h=400&fit=contain&bg=white' : '';
+
+  // Price — try OG product price tags, then scan for $ patterns
+  const priceStr = getOG('price:amount') || getMeta('price') ||
+    (html.match(/["\'\s]price["\'\s]*:\s*["\'\s]?([0-9]{1,4}\.[0-9]{2})/i)||[])[1];
+  let price = priceStr ? parseFloat(priceStr) : null;
+  if (!price || price > 9999) {
+    // Scan for visible price patterns like $29.99
+    const pm = html.match(/\$\s*([1-9][0-9]{0,3}\.[0-9]{2})(?:[^0-9]|$)/);
+    if (pm) price = parseFloat(pm[1]);
+  }
+  if (price && (price < 0.5 || price > 9999)) price = null;
+
+  return { title, image, price, url: originalUrl };
 }
 
+// Fetch page HTML via allorigins, fall back to corsproxy
 async function scrapeUrl(url) {
-  // Proxy 1: allorigins (wraps response in JSON)
+  // Try allorigins first — returns JSON with .contents key
   try {
-    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(10000) });
+    const res = await fetch(
+      'https://api.allorigins.win/get?url=' + encodeURIComponent(url),
+      { signal: AbortSignal.timeout(12000) }
+    );
     if (res.ok) {
       const d = await res.json();
-      if (d && d.contents && d.contents.length > 200) return parseOGFromHTML(d.contents, url);
+      if (d && d.contents && d.contents.length > 500) {
+        const parsed = parseOGFromHTML(d.contents, url);
+        if (parsed.title || parsed.image) return parsed;
+      }
     }
   } catch(e) {}
-  // Proxy 2: corsproxy.io (returns raw HTML)
+
+  // Fall back to corsproxy.io — returns raw HTML
   try {
-    const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(url), { signal: AbortSignal.timeout(10000) });
-    if (res.ok) { const html = await res.text(); if (html.length > 200) return parseOGFromHTML(html, url); }
+    const res = await fetch(
+      'https://corsproxy.io/?' + encodeURIComponent(url),
+      { signal: AbortSignal.timeout(12000) }
+    );
+    if (res.ok) {
+      const html = await res.text();
+      if (html.length > 500) {
+        const parsed = parseOGFromHTML(html, url);
+        if (parsed.title || parsed.image) return parsed;
+      }
+    }
   } catch(e) {}
+
   return null;
 }
 
 async function fetchUrlDetails() {
   const url = document.getElementById('fetchUrl').value.trim();
-  if (!url) return;
+  if (!url) { showToast('⚠️ Paste a URL first', ''); return; }
   const btn = document.getElementById('fetchBtn');
   btn.textContent = '⏳ Fetching...';
   btn.disabled = true;
@@ -1077,14 +1195,15 @@ async function fetchUrlDetails() {
       if (data.image) document.getElementById('itemImage').value = data.image;
       if (data.price) document.getElementById('itemPrice').value = data.price.toFixed(2);
       document.getElementById('itemUrl').value = url;
-      showToast('✅ Details fetched!', 'green');
+      const got = [data.title && 'title', data.image && 'image', data.price && 'price'].filter(Boolean);
+      showToast('✅ Got: ' + got.join(', '), 'green');
     } else {
       document.getElementById('itemUrl').value = url;
-      showToast('⚠️ Could not auto-fetch details. Fill in title/image manually.', '');
+      showToast('⚠️ Could not auto-fetch — fill in title & image manually.', '');
     }
   } catch(e) {
     document.getElementById('itemUrl').value = url;
-    showToast('⚠️ Fetch failed. Fill in manually.', '');
+    showToast('⚠️ Fetch failed — fill in manually.', '');
   }
   btn.textContent = '🔍 Fetch';
   btn.disabled = false;
@@ -1176,20 +1295,24 @@ async function bulkImport() {
   const urls = raw.split('\n').map(u => u.trim()).filter(Boolean);
   const cat = document.getElementById('bulkCategory').value;
   const status = document.getElementById('bulkStatus');
-  let done = 0;
+  let done = 0, failed = 0;
   status.textContent = 'Fetching 0/' + urls.length + '...';
   for (const url of urls) {
     let title = url, image = '', price = null;
     try {
       const data = await scrapeUrl(url);
-      if (data) { title = data.title || url; image = data.image || ''; price = data.price || null; }
-    } catch {}
+      if (data) {
+        title = data.title || url;
+        image = data.image || '';   // already wsrv.nl proxied from scrapeUrl
+        price = data.price || null;
+      } else { failed++; }
+    } catch { failed++; }
     items.push({ id: String(Date.now() + Math.random()), title, category: cat, price, rank: 99, url, image, note: '', purchased: false, retired: false, expensive: false });
     done++;
-    status.textContent = 'Fetching ' + done + '/' + urls.length + '...';
+    status.textContent = 'Fetching ' + done + '/' + urls.length + '... (' + (done - failed) + ' with details)';
   }
   document.getElementById('bulkUrls').value = '';
-  status.textContent = '✅ Imported ' + done + ' items!';
+  status.textContent = '✅ Done! ' + (done - failed) + '/' + done + ' items fetched with details.';
   renderAdminTable();
   renderList();
 }
@@ -1254,6 +1377,7 @@ function showToast(msg, type) {
 // INIT
 // ══════════════════════════════════════════
 loadItems();
+updateFamilyBtn();
 </script>
 </body>
 </html>
