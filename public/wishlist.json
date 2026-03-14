@@ -102,5 +102,18 @@
     "purchased": false,
     "retired": false,
     "expensive": false
+  },
+  {
+    "id": "1773448926681",
+    "title": "test product",
+    "category": "Goo Jit Zus",
+    "price": 67,
+    "rank": 1,
+    "url": "https://www.walmart.com/ip/Bitzee-Disney-Interactive-Toy-with-30-Digital-Characters-Reacts-to-Swipes-Tilts-Taps/5382623765?wl13=1930&selectedSellerId=0&wmlspartner=wlpa",
+    "image": "https://www.walmart.com/ip/Bitzee-Disney-Interactive-Toy-with-30-Digital-Characters-Reacts-to-Swipes-Tilts-Taps/5382623765?wl13=1930&selectedSellerId=0&wmlspartner=wlpa",
+    "note": "this this slaps",
+    "retired": false,
+    "expensive": true,
+    "purchased": false
   }
 ]
