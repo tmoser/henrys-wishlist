@@ -657,22 +657,16 @@
     <!-- GitHub Config -->
     <div class="admin-section" id="ghConfigSection">
       <h3>⚙️ GitHub Configuration</h3>
-      <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:12px">Enter your GitHub details to enable saving. These are stored locally in your browser only.</p>
+      <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:12px">Repo is pre-configured (<strong>tmoser/henrys-wishlist</strong>). Just paste your Personal Access Token once — stored in your browser only.</p>
       <div class="form-row">
+        <div class="form-group" style="display:none"><label>GitHub Username</label><input type="text" id="ghUser" value="tmoser"></div>
+        <div class="form-group" style="display:none"><label>Repository Name</label><input type="text" id="ghRepo" value="henrys-wishlist"></div>
         <div class="form-group">
-          <label>GitHub Username</label>
-          <input type="text" id="ghUser" placeholder="e.g. johndoe">
-        </div>
-        <div class="form-group">
-          <label>Repository Name</label>
-          <input type="text" id="ghRepo" placeholder="e.g. henrys-wishlist">
-        </div>
-        <div class="form-group">
-          <label>Personal Access Token</label>
+          <label>Personal Access Token (ghp_...)</label>
           <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx">
         </div>
       </div>
-      <button class="btn-primary" onclick="saveGhConfig()">Save Config</button>
+      <button class="btn-primary" onclick="saveGhConfig()">Save Token</button>
     </div>
 
     <!-- Add / Edit Item -->
@@ -856,10 +850,10 @@ function renderList() {
 
   grid.innerHTML = visible.map(item => {
     const isPurchased = item.purchased;
+    const emoji = catEmoji[item.category] || '🎁';
     const imgHtml = item.image
-      ? `<img class="card-img" src="${escHtml(item.image)}" alt="${escHtml(item.title)}" onerror="this.parentNode.innerHTML='<div class=\\'card-img-placeholder\\'>${catEmoji[item.category]||'🎁'}</div>'">`
-      : `<div class="card-img-placeholder">${catEmoji[item.category]||'🎁'}</div>`;
-
+      ? `<img class="card-img" src="${escHtml(item.image)}" alt="${escHtml(item.title)}" referrerpolicy="no-referrer" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="card-img-placeholder" style="display:none">${emoji}</div>`
+      : `<div class="card-img-placeholder">${emoji}</div>`;
     const badges = [
       item.retired ? '<span class="badge badge-retired">Retired</span>' : '',
       item.expensive ? '<span class="badge badge-expensive">May be pricey</span>' : ''
@@ -974,15 +968,16 @@ function checkPass() {
 // ══════════════════════════════════════════
 // GITHUB CONFIG
 // ══════════════════════════════════════════
+const GH_USER = 'tmoser';
+const GH_REPO = 'henrys-wishlist';
+
 function saveGhConfig() {
-  localStorage.setItem('gh_user', document.getElementById('ghUser').value.trim());
-  localStorage.setItem('gh_repo', document.getElementById('ghRepo').value.trim());
   localStorage.setItem('gh_token', document.getElementById('ghToken').value.trim());
-  showToast('GitHub config saved locally ✅', 'green');
+  showToast('GitHub token saved ✅', 'green');
 }
 function loadGhConfig() {
-  document.getElementById('ghUser').value = localStorage.getItem('gh_user') || '';
-  document.getElementById('ghRepo').value = localStorage.getItem('gh_repo') || '';
+  document.getElementById('ghUser').value = GH_USER;
+  document.getElementById('ghRepo').value = GH_REPO;
   document.getElementById('ghToken').value = localStorage.getItem('gh_token') || '';
 }
 
@@ -990,11 +985,11 @@ function loadGhConfig() {
 // SAVE TO GITHUB
 // ══════════════════════════════════════════
 async function saveToGitHub() {
-  const user = localStorage.getItem('gh_user');
-  const repo = localStorage.getItem('gh_repo');
+  const user = GH_USER;
+  const repo = GH_REPO;
   const token = localStorage.getItem('gh_token');
-  if (!user || !repo || !token) {
-    showToast('⚠️ Fill in GitHub config first!', 'red');
+  if (!token) {
+    showToast('⚠️ Enter your GitHub token first!', 'red');
     document.getElementById('ghConfigSection').scrollIntoView({ behavior:'smooth' });
     return;
   }
@@ -1032,26 +1027,64 @@ function setStatus(cls, text) {
 }
 
 // ══════════════════════════════════════════
-// URL FETCH (jsonlink.io)
+// URL FETCH — multi-proxy OG scraper
 // ══════════════════════════════════════════
+
+function parseOGFromHTML(html, originalUrl) {
+  const get = (prop) => {
+    let m = html.match(new RegExp('property=["\'\']' + prop + '["\'\'][^>]*content=["\'\']([^"\'\']]+)', 'i'));
+    if (!m) m = html.match(new RegExp('content=["\'\']([^"\'\']]+)["\'\'][^>]*property=["\'\']' + prop + '["\'\']', 'i'));
+    return m ? m[1].trim() : null;
+  };
+  const title = get('og:title') || (html.match(/<title[^>]*>([^<]{2,100})/i)||[])[1] || '';
+  const image = get('og:image') || get('og:image:secure_url') || '';
+  const priceStr = get('product:price:amount') || get('og:price:amount');
+  let price = priceStr ? parseFloat(priceStr) : null;
+  if (!price) { const pm = html.match(/\$\s*(\d{1,4}\.\d{2})/); if (pm) price = parseFloat(pm[1]); }
+  return {
+    title: title.replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim(),
+    image, price, url: originalUrl
+  };
+}
+
+async function scrapeUrl(url) {
+  // Proxy 1: allorigins (wraps response in JSON)
+  try {
+    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url), { signal: AbortSignal.timeout(10000) });
+    if (res.ok) {
+      const d = await res.json();
+      if (d && d.contents && d.contents.length > 200) return parseOGFromHTML(d.contents, url);
+    }
+  } catch(e) {}
+  // Proxy 2: corsproxy.io (returns raw HTML)
+  try {
+    const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(url), { signal: AbortSignal.timeout(10000) });
+    if (res.ok) { const html = await res.text(); if (html.length > 200) return parseOGFromHTML(html, url); }
+  } catch(e) {}
+  return null;
+}
+
 async function fetchUrlDetails() {
   const url = document.getElementById('fetchUrl').value.trim();
   if (!url) return;
   const btn = document.getElementById('fetchBtn');
-  btn.textContent = '⏳';
+  btn.textContent = '⏳ Fetching...';
   btn.disabled = true;
   try {
-    const res = await fetch(`https://jsonlink.io/api/extract?url=${encodeURIComponent(url)}`);
-    const data = await res.json();
-    if (data.title) document.getElementById('itemTitle').value = data.title;
-    if (data.images?.[0]) document.getElementById('itemImage').value = data.images[0];
-    if (data.url) document.getElementById('itemUrl').value = data.url;
-    // Try to extract price from description
-    const priceMatch = (data.description||'').match(/\$(\d+\.?\d*)/);
-    if (priceMatch) document.getElementById('itemPrice').value = priceMatch[1];
-    showToast('✅ Details fetched!', 'green');
+    const data = await scrapeUrl(url);
+    if (data) {
+      if (data.title) document.getElementById('itemTitle').value = data.title;
+      if (data.image) document.getElementById('itemImage').value = data.image;
+      if (data.price) document.getElementById('itemPrice').value = data.price.toFixed(2);
+      document.getElementById('itemUrl').value = url;
+      showToast('✅ Details fetched!', 'green');
+    } else {
+      document.getElementById('itemUrl').value = url;
+      showToast('⚠️ Could not auto-fetch details. Fill in title/image manually.', '');
+    }
   } catch(e) {
-    showToast('⚠️ Could not fetch. Fill in manually.', 'red');
+    document.getElementById('itemUrl').value = url;
+    showToast('⚠️ Fetch failed. Fill in manually.', '');
   }
   btn.textContent = '🔍 Fetch';
   btn.disabled = false;
@@ -1143,32 +1176,20 @@ async function bulkImport() {
   const urls = raw.split('\n').map(u => u.trim()).filter(Boolean);
   const cat = document.getElementById('bulkCategory').value;
   const status = document.getElementById('bulkStatus');
-  status.textContent = `Fetching 0/${urls.length}...`;
-
   let done = 0;
+  status.textContent = 'Fetching 0/' + urls.length + '...';
   for (const url of urls) {
+    let title = url, image = '', price = null;
     try {
-      const res = await fetch(`https://jsonlink.io/api/extract?url=${encodeURIComponent(url)}`);
-      const data = await res.json();
-      items.push({
-        id: String(Date.now() + Math.random()),
-        title: data.title || url,
-        category: cat,
-        price: null,
-        rank: 99,
-        url: data.url || url,
-        image: data.images?.[0] || '',
-        note: '',
-        purchased: false
-      });
-    } catch {
-      items.push({ id: String(Date.now() + Math.random()), title: url, category: cat, price: null, rank: 99, url, image: '', note: '', purchased: false });
-    }
+      const data = await scrapeUrl(url);
+      if (data) { title = data.title || url; image = data.image || ''; price = data.price || null; }
+    } catch {}
+    items.push({ id: String(Date.now() + Math.random()), title, category: cat, price, rank: 99, url, image, note: '', purchased: false, retired: false, expensive: false });
     done++;
-    status.textContent = `Fetching ${done}/${urls.length}...`;
+    status.textContent = 'Fetching ' + done + '/' + urls.length + '...';
   }
   document.getElementById('bulkUrls').value = '';
-  status.textContent = `✅ Imported ${done} items!`;
+  status.textContent = '✅ Imported ' + done + ' items!';
   renderAdminTable();
   renderList();
 }
