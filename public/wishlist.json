@@ -5,11 +5,12 @@
     "category": "Legos",
     "price": null,
     "rank": 1,
-    "url": "https://www.amazon.com/s?k=Lego+Ultra+Stealth+Raider",
+    "url": "https://www.amazon.com/LEGO-NINJAGO-70595-Childrens-9-Year-Olds/dp/B01CU9X5ZA/",
     "image": "",
-    "note": "Retired set. Buy off Amazon or eBay. Other companies like MoonWalkBaby are scams.",
+    "note": "Retired set \u2014 buy on Amazon or eBay only. Beware of fake sellers.",
     "purchased": false,
-    "retired": true
+    "retired": true,
+    "expensive": false
   },
   {
     "id": "2",
@@ -17,10 +18,11 @@
     "category": "Legos",
     "price": null,
     "rank": 2,
-    "url": "https://www.lego.com/en-us/search?q=Lloyd%27s+Jet+Mech",
+    "url": "https://www.lego.com/en-us/product/lloyds-jet-mech-71845",
     "image": "",
     "note": "May be expensive.",
     "purchased": false,
+    "retired": false,
     "expensive": true
   },
   {
@@ -29,10 +31,12 @@
     "category": "Legos",
     "price": null,
     "rank": 3,
-    "url": "https://www.lego.com/en-us/search?q=Ninja+Combat+Vehicle",
+    "url": "https://www.lego.com/en-us/product/ninja-combat-vehicle-71844",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "4",
@@ -40,10 +44,12 @@
     "category": "Legos",
     "price": null,
     "rank": 4,
-    "url": "https://www.lego.com/en-us/search?q=Thunderfang+Dragon+of+Chaos",
+    "url": "https://www.lego.com/en-us/product/thunderfang-dragon-of-chaos-71832",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "5",
@@ -51,10 +57,11 @@
     "category": "Legos",
     "price": null,
     "rank": 5,
-    "url": "https://www.lego.com/en-us/search?q=Cole%27s+Dragon+Titan+Mech",
+    "url": "https://www.lego.com/en-us/product/coles-titan-dragon-mech-71821",
     "image": "",
     "note": "May be expensive.",
     "purchased": false,
+    "retired": false,
     "expensive": true
   },
   {
@@ -63,9 +70,9 @@
     "category": "Legos",
     "price": null,
     "rank": 6,
-    "url": "https://www.amazon.com/s?k=Lego+Titanium+Command+Rig",
+    "url": "https://www.ebay.com/itm/397216843249",
     "image": "",
-    "note": "Retired set. May be expensive.",
+    "note": "Retired set \u2014 buy on eBay. May be expensive.",
     "purchased": false,
     "retired": true,
     "expensive": true
@@ -76,10 +83,12 @@
     "category": "Legos",
     "price": null,
     "rank": 7,
-    "url": "https://www.lego.com/en-us/search?q=Ras+Arin+Super+Storm+Jet",
+    "url": "https://www.lego.com/en-us/product/ras-and-arin-s-super-storm-jet-71833",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "8",
@@ -87,10 +96,12 @@
     "category": "Legos",
     "price": null,
     "rank": 8,
-    "url": "https://www.lego.com/en-us/search?q=Spiderman+Collectible+Minifig+6+pack",
+    "url": "https://www.lego.com/en-us/product/spider-man-across-the-spider-verse-6-pack-66797",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "9",
@@ -98,10 +109,12 @@
     "category": "Legos",
     "price": null,
     "rank": 9,
-    "url": "https://www.lego.com/en-us/search?q=Kai%27s+Mech+Storm+Rider",
+    "url": "https://www.lego.com/en-us/product/kai-s-mech-storm-rider-71830",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "10",
@@ -109,10 +122,12 @@
     "category": "Legos",
     "price": null,
     "rank": 10,
-    "url": "https://www.lego.com/en-us/search?q=Mateo+Spray+Paint+Truck",
+    "url": "https://www.lego.com/en-us/product/mateo-s-spray-paint-truck-71499",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "11",
@@ -120,10 +135,12 @@
     "category": "Legos",
     "price": null,
     "rank": 11,
-    "url": "https://www.lego.com/en-us/search?q=Gingerbread+AT-AT+Walker",
+    "url": "https://www.lego.com/en-us/product/gingerbread-at-at-walker-40806",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "12",
@@ -131,10 +148,12 @@
     "category": "Legos",
     "price": null,
     "rank": 12,
-    "url": "https://www.lego.com/en-us/search?q=Mechanical+Anglerfish",
+    "url": "https://www.amazon.com/Mechanical-Building-Creative-Lantern-Compatible/dp/B0FCR9S2QN/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "13",
@@ -142,11 +161,12 @@
     "category": "Legos",
     "price": null,
     "rank": 13,
-    "url": "https://www.amazon.com/s?k=Lego+Spinjitzu+Burst+Cole",
+    "url": "https://www.amazon.com/LEGO-NINJAGO-Spinjitzu-Burst-Minifigure/dp/B0858J2JNP/",
     "image": "",
     "note": "Retired set.",
     "purchased": false,
-    "retired": true
+    "retired": true,
+    "expensive": false
   },
   {
     "id": "14",
@@ -154,10 +174,12 @@
     "category": "Legos",
     "price": null,
     "rank": 14,
-    "url": "https://www.lego.com/en-us/search?q=Lloyd+Pull+Back+Race+Car",
+    "url": "https://www.lego.com/en-us/product/lloyd-s-pull-back-race-car-71828",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "15",
@@ -165,10 +187,12 @@
     "category": "Legos",
     "price": null,
     "rank": 15,
-    "url": "https://www.lego.com/en-us/search?q=Cooper+Gaming+Controller+Jet",
+    "url": "https://www.lego.com/en-us/product/coopers-gaming-controller-jet-71489",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "16",
@@ -176,10 +200,12 @@
     "category": "Legos",
     "price": null,
     "rank": 16,
-    "url": "https://www.lego.com/en-us/search?q=Logan+Mighty+Panda",
+    "url": "https://www.lego.com/en-us/product/logan-the-mighty-panda-71480",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "17",
@@ -187,10 +213,12 @@
     "category": "Legos",
     "price": null,
     "rank": 17,
-    "url": "https://www.lego.com/en-us/search?q=Mateo+Cyber+Brain+Mech",
+    "url": "https://www.lego.com/en-us/product/mateo-vs-cyber-brain-mech-71495",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "18",
@@ -201,7 +229,9 @@
     "url": "https://www.lego.com/en-us/product/71477",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "19",
@@ -209,10 +239,12 @@
     "category": "Goo Jit Zus",
     "price": null,
     "rank": 1,
-    "url": "https://www.amazon.com/s?k=Goo+Jit+Zu+Mega+Launcher",
+    "url": "https://www.amazon.com/Heroes-Goo-Jit-Zu-Slingers/dp/B0DQ6DG5HG/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "20",
@@ -220,10 +252,12 @@
     "category": "Goo Jit Zus",
     "price": null,
     "rank": 2,
-    "url": "https://www.amazon.com/s?k=Goo+Jit+Zu+Goo-Tron+Supreme",
+    "url": "https://www.amazon.com/Heroes-Goo-Jit-Zu-Different/dp/B0DQ6K33DD/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "21",
@@ -231,10 +265,12 @@
     "category": "Goo Jit Zus",
     "price": null,
     "rank": 3,
-    "url": "https://www.amazon.com/s?k=Goo+Jit+Zu+Hero+Creator+Bundle",
+    "url": "https://www.amazon.com/Heroes-Goo-Jit-Zu-fillings/dp/B0CPMFJN9M/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "22",
@@ -242,10 +278,12 @@
     "category": "Goo Jit Zus",
     "price": null,
     "rank": 4,
-    "url": "https://www.amazon.com/s?k=Goo+Jit+Zu+Cursed+Goo+Sea+Versus+Pack",
+    "url": "https://www.amazon.com/Heroes-Goo-Jit-Zu-Exclusive/dp/B0CCWV4VKT",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "23",
@@ -253,10 +291,12 @@
     "category": "Goo Jit Zus",
     "price": null,
     "rank": 5,
-    "url": "https://www.amazon.com/s?k=Goo+Jit+Zu+Meteor+Madness+Versus+Pack",
+    "url": "https://www.amazon.com/Heroes-Goo-Jit-Zu-Sludgewing/dp/B0DQ6LTLX2/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "24",
@@ -264,10 +304,12 @@
     "category": "Eldradors",
     "price": null,
     "rank": 1,
-    "url": "https://www.amazon.com/s?k=Eldrador+Shadow+Tiger+Battle+Cave",
+    "url": "https://www.amazon.com/Schleich-Eldrador-Creatures-Shooting-Interactive/dp/B0F19BK5RF/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "25",
@@ -275,10 +317,12 @@
     "category": "Eldradors",
     "price": null,
     "rank": 2,
-    "url": "https://www.amazon.com/s?k=Eldrador+Stone+Slasher+Battle+Cave",
+    "url": "https://www.amazon.com/Schleich-Eldrador-Creatures-BattleCave-Playset/dp/B0DK79DZWC/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "26",
@@ -286,10 +330,12 @@
     "category": "Eldradors",
     "price": null,
     "rank": 3,
-    "url": "https://www.amazon.com/s?k=Eldrador+Shadow+Master+Robot",
+    "url": "https://www.amazon.com/Schleich-Shadow-Master-Robot-Ages/dp/B0BDMW98LD/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "27",
@@ -297,10 +343,12 @@
     "category": "Eldradors",
     "price": null,
     "rank": 4,
-    "url": "https://www.amazon.com/s?k=Eldrador+Shadow+Bug+Battle+Cave",
+    "url": "https://www.amazon.com/Schleich-42675-BattleCave-Shadow-Bug/dp/B0CTSMP9SJ/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "28",
@@ -308,10 +356,12 @@
     "category": "Eldradors",
     "price": null,
     "rank": 5,
-    "url": "https://www.amazon.com/s?k=Eldrador+Shadow+Ice+Robot",
+    "url": "https://www.amazon.com/Schleich-Eldrador-Creature-Surprise-Creatures/dp/B0BVCR8ZTM/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "29",
@@ -319,10 +369,12 @@
     "category": "Eldradors",
     "price": null,
     "rank": 6,
-    "url": "https://www.amazon.com/s?k=Eldrador+Shadow+Stone+Monster",
+    "url": "https://www.amazon.com/Schleich-Eldrador-Fantasy-Mythical-Creature/dp/B0BSP1N7BX/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "30",
@@ -330,10 +382,12 @@
     "category": "Eldradors",
     "price": null,
     "rank": 7,
-    "url": "https://www.amazon.com/s?k=Eldrador+Stone+Monster",
+    "url": "https://www.amazon.com/Schleich-70141-Stone-Monster/dp/B079NH9PW3/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "31",
@@ -341,10 +395,12 @@
     "category": "Eldradors",
     "price": null,
     "rank": 8,
-    "url": "https://www.amazon.com/s?k=Eldrador+Lava+Scorpion",
+    "url": "https://www.amazon.com/Schleich-70142-Lava-Scorpion/dp/B07LB5TSTD/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "32",
@@ -352,10 +408,12 @@
     "category": "Eldradors",
     "price": null,
     "rank": 9,
-    "url": "https://www.amazon.com/s?k=Eldrador+Lava+Golem",
+    "url": "https://www.amazon.com/Schleich-Eldrador-Creatures-Action-Figures/dp/B09S3WM3YQ/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "33",
@@ -363,10 +421,12 @@
     "category": "Eldradors",
     "price": null,
     "rank": 10,
-    "url": "https://www.amazon.com/s?k=Eldrador+Lava+Smasher",
+    "url": "https://www.amazon.com/SCHLEICH-Eldrador-Creatures-Figures-Smasher/dp/B08W4M8TFM/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "34",
@@ -374,10 +434,12 @@
     "category": "Eldradors",
     "price": null,
     "rank": 11,
-    "url": "https://www.amazon.com/s?k=Eldrador+Shadow+Worm",
+    "url": "https://www.amazon.com/Schleich-Eldrador-Creatures-Imaginative-Figurine/dp/B0DK77TDLR/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "35",
@@ -385,10 +447,12 @@
     "category": "Eldradors",
     "price": null,
     "rank": 12,
-    "url": "https://www.amazon.com/s?k=Eldrador+Battle+Rhino",
+    "url": "https://www.amazon.com/Schleich-70157-Battle-Rhino/dp/B0BSP18VF7/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "36",
@@ -396,10 +460,12 @@
     "category": "Books",
     "price": null,
     "rank": 1,
-    "url": "https://www.amazon.com/s?k=Build+and+Stick+Ninjago+Dragons",
+    "url": "https://www.lego.com/en-us/product/build-and-stick-ninjago-dragons-book-5007553",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "37",
@@ -407,10 +473,12 @@
     "category": "Books",
     "price": null,
     "rank": 2,
-    "url": "https://www.amazon.com/s?k=Ninjago+Adventure+Atlas",
+    "url": "https://www.lego.com/en-us/product/lego-ninjago-dragons-rising-adventure-atlas-5009938",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "38",
@@ -418,10 +486,12 @@
     "category": "Books",
     "price": null,
     "rank": 3,
-    "url": "https://www.amazon.com/s?k=Ninjago+Mysteries+of+the+Merged+World",
+    "url": "https://www.lego.com/en-us/product/mysteries-of-the-merged-world-book-5009216",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "39",
@@ -429,10 +499,12 @@
     "category": "Books",
     "price": null,
     "rank": 4,
-    "url": "https://www.amazon.com/s?k=Ninjago+Spinjitzu+Brothers+2",
+    "url": "https://www.lego.com/en-us/product/spinjitzu-brothers-lair-of-tanabrax-book-5007467",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "40",
@@ -440,10 +512,12 @@
     "category": "Books",
     "price": null,
     "rank": 5,
-    "url": "https://www.amazon.com/s?k=Ninjago+Spinjitzu+Brothers+4",
+    "url": "https://www.lego.com/en-us/product/spinjitzu-brothers-the-chroma-s-clutches-book-5007862",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "41",
@@ -451,10 +525,12 @@
     "category": "Other",
     "price": null,
     "rank": 1,
-    "url": "https://www.amazon.com/s?k=Mr+Beast+Labs+HYBRID+Mega+Pack",
+    "url": "https://www.amazon.com/MRBEAST-LAB-Hybrids-Fusion-Hybrid/dp/B0DQ6C22M2/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "42",
@@ -462,10 +538,12 @@
     "category": "Other",
     "price": null,
     "rank": 2,
-    "url": "https://www.amazon.com/s?k=Mr+Beast+Labs+Apex+Beast+Panther",
+    "url": "https://www.amazon.com/MrBeast-Lab-Collector-Detailing-Articulation/dp/B0CTSFL7RW/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "43",
@@ -473,10 +551,12 @@
     "category": "Other",
     "price": null,
     "rank": 3,
-    "url": "https://www.amazon.com/s?k=Mr+Beast+Labs+HYBRID+Terrana-Claw",
+    "url": "https://www.amazon.com/MRBEAST-LAB-Hybrids-Fusion-Hybrid/dp/B0DQ6J19CL/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "44",
@@ -484,10 +564,12 @@
     "category": "Other",
     "price": null,
     "rank": 4,
-    "url": "https://www.amazon.com/s?k=10+Pack+Mystery+3D+Printed+Animals",
+    "url": "https://www.amazon.com/ZZ-LIFE-Mystery-Animal-Packs/dp/B0DGVBVKVD/",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "45",
@@ -495,10 +577,12 @@
     "category": "Other",
     "price": null,
     "rank": 5,
-    "url": "https://www.amazon.com/s?k=Dragonian+Warrior+Axe",
+    "url": "https://www.lego.com/en-us/product/dragonian-warrior-axe-854309",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "46",
@@ -508,8 +592,10 @@
     "rank": 6,
     "url": "https://www.amazon.com/s?k=Guinness+Book+World+Records+2025",
     "image": "",
-    "note": "Henry's pick",
-    "purchased": false
+    "note": "",
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "47",
@@ -520,7 +606,9 @@
     "url": "https://www.amazon.com/s?k=Warriors+Exile+from+Shadowclan+graphic+novel",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "48",
@@ -531,7 +619,9 @@
     "url": "https://www.amazon.com/s?k=Warriors+Shadow+in+Riverclan+graphic+novel",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "49",
@@ -542,7 +632,9 @@
     "url": "https://www.amazon.com/s?k=Warriors+Thief+in+Thunderclan+graphic+novel",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "50",
@@ -553,7 +645,9 @@
     "url": "https://www.amazon.com/s?k=Warriors+Winds+of+Change+graphic+novel",
     "image": "",
     "note": "",
-    "purchased": false
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "51",
@@ -561,10 +655,12 @@
     "category": "Other",
     "price": null,
     "rank": 6,
-    "url": "https://www.amazon.com/s?k=Mighty+mp3+player",
+    "url": "https://bemighty.com/products/mighty-audio-screenless-connection-free-spotify-music-player?variant=40878540619824",
     "image": "",
-    "note": "Henry's pick",
-    "purchased": false
+    "note": "",
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   },
   {
     "id": "52",
@@ -574,7 +670,9 @@
     "rank": 7,
     "url": "https://www.fatbraintoys.com/toy_companies/fat_brain_toy_co/ribbon_ninja.cfm",
     "image": "",
-    "note": "Henry's pick",
-    "purchased": false
+    "note": "",
+    "purchased": false,
+    "retired": false,
+    "expensive": false
   }
 ]
